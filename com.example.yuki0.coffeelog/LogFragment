@@ -1,0 +1,113 @@
+package com.example.yuki0.coffeelog;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.text.format.Time;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
+
+/*
+  @author BaristaYuki
+  
+*/
+
+public class LogFragment extends Fragment  {
+
+
+    public static String Date;
+    public static String ShopName;
+    public static String BeansName;
+    public static String Memo;
+    public RatingBar ratingBar;
+    public static float num =0;
+    public static String ratenum;
+    private EditText editBeansName;
+    private EditText editShopName;
+    private EditText editMemo;
+    private EditText editDate;
+
+    public static LogFragment newInstance() {
+        LogFragment fragment = new LogFragment();
+        return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_log, null);
+        return root;
+    }
+
+
+   @Override
+   public void onResume(){
+        super.onResume();
+        Time time = new Time("Asia/Tokyo");
+        time.setToNow();
+        editBeansName = (EditText)getView().findViewById(R.id.EditBeansName);
+        editShopName = (EditText)getView().findViewById(R.id.EditShopName);
+        editMemo = (EditText)getView().findViewById(R.id.EditMemo);
+        editDate = (EditText)getView().findViewById(R.id.EditDate);
+        ratingBar = (RatingBar)getView().findViewById(R.id.ratingBar);
+        ratingBar.setRating(3);
+        String date = time.year+"/"+time.month+"/"+time.monthDay;
+        editDate.setText(date);
+
+
+       ratingBar.setOnRatingBarChangeListener(
+               new RatingBar.OnRatingBarChangeListener() {
+                   public void onRatingChanged(
+                           RatingBar ratingBar,
+                           float rating,
+                           boolean fromUser) {
+                       // RatingBar のレイティング数が変わったときの動作
+                       num = ratingBar.getRating();
+                       ratenum = Float.toString(num);
+                   }
+               }
+       );
+
+
+       Button btn = (Button)getActivity().findViewById(R.id.savebutton);
+       btn.setOnClickListener(new View.OnClickListener(){
+           @Override
+           public void onClick(View view) {
+               //insert data to DB
+               try {
+                   Date = editDate.getText().toString();
+               } catch (NumberFormatException e) {
+                   Date = "日付を入力";
+               }
+
+               try {
+                   ShopName = editShopName.getText().toString();
+               } catch (NumberFormatException e) {
+                   ShopName = "";
+               }
+               try {
+                   BeansName = editBeansName.getText().toString();
+               } catch (NumberFormatException e) {
+                   BeansName = "";
+               }
+               try {
+                   Memo = editMemo.getText().toString();
+               } catch (NumberFormatException e) {
+                   Memo = "";
+               }
+
+
+               ((MainActivity) getActivity()).saverecord(Date, BeansName, Memo, ShopName, num);
+
+           }
+       });
+
+   }
+
+}
