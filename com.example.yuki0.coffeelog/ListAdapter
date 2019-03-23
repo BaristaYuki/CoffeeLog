@@ -1,0 +1,63 @@
+package com.example.yuki0.coffeelog;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+/*
+ @author BaristaYuk
+*/
+
+public class ListAdapter extends CursorAdapter {
+
+    public ListAdapter(Context context, Cursor c, int flag){
+        super(context, c, flag);
+    }
+
+    @Override
+    public void bindView(View v, Context context, Cursor cursor) {
+
+        float f = 0;
+
+        String date = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DATE));
+        String beans = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BEANS));
+        String roaster = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ROASTER));
+        String note = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTE));
+        float rate = cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_RATING));
+
+        TextView showdate = (TextView) v.findViewById(R.id.ShowDate);
+        TextView showrbeans = (TextView) v.findViewById(R.id.ShowBeansName);
+        TextView showroaster = (TextView) v.findViewById(R.id.ShowShopName);
+        TextView shownote = (TextView) v.findViewById(R.id.ShowMemo);
+        RatingBar r = (RatingBar)v.findViewById(R.id.ratingBar);
+        r.setRating(rate);
+
+        showdate.setText(date);
+        showdate.setTextSize(24.0f);
+        showrbeans.setText(beans);
+        showrbeans.setTextSize(24.0f);
+        showroaster.setText(roaster);
+        showroaster.setTextSize(24.0f);
+        shownote.setText(note);
+        shownote.setTextSize(24.0f);
+
+
+    }
+
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.row, null);
+
+        return view;
+    }
+
+}
+
+
