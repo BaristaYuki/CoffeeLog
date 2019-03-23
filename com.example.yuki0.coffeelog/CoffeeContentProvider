@@ -1,0 +1,104 @@
+package com.example.yuki0.coffeelog;
+
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
+
+/*
+  @author BarisutaYuki
+  */
+
+public class CoffeeContentProvider extends ContentProvider {
+
+    private DatabaseHelper mDbHelper;
+
+    private static final int COFFEERECOERD = 1;
+    private static final int COFFEERECOERD_ID = 2;
+    private static final String AUTHORITY = "com.example.yuki0.coffeelog.CoffeeContentProvider";
+
+    private static final String BASE_PARH = "coffeerecord";
+
+    public static final Uri CONTENT_URI = Uri.parse("content://"+AUTHORITY+"/"+BASE_PARH);
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    static{
+        uriMatcher.addURI(AUTHORITY, BASE_PARH, COFFEERECOERD);
+        uriMatcher.addURI(AUTHORITY, BASE_PARH +"/#", COFFEERECOERD_ID);
+    }
+
+    @Override
+    public boolean onCreate(){
+        mDbHelper = new DatabaseHelper(getContext());
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder){
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+
+        queryBuilder.setTables(DatabaseHelper.TABLE_COFFEERECORD);
+
+        int uriType = uriMatcher.match(uri);
+
+        switch(uriType){
+            case COFFEERECOERD:
+                break;
+
+            case COFFEERECOERD_ID:
+                queryBuilder.appendWhere(DatabaseHelper.COLUMN_ID + "=" + uri.getLastPathSegment());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: "+ uri);
+        }
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs,null,null,sortOrder);
+
+        return cursor;
+    }
+
+    @Nullable
+    @Override
+    public Uri insert(Uri uri, ContentValues values){
+        SQLiteDatabase sqlDB = mDbHelper.getWritableDatabase();
+        int uriType = uriMatcher.match(uri);
+        long id = 0;
+        switch(uriType){
+            case COFFEERECOERD:
+                id = sqlDB.insert(DatabaseHelper.TABLE_COFFEERECORD, null,values);
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unknown URI: "+ uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return Uri.withAppendedPath(uri,String.valueOf(id));
+
+    }
+
+    @Nullable
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs){
+        return 0;
+    }
+
+    @Nullable
+    @Override
+    public String getType(Uri uri){
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs){
+        return 0;
+    }
+
+}
