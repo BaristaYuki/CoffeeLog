@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation = "vertical"
+    android:layout_marginTop="8dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="@string/date" />
+
+        <TextView
+            android:id="@+id/ShowDate"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center" />
+        >
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/BeansName"
+            android:id="@+id/textBeansName"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/ShowBeansName"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textShopName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/ShopName" />
+
+        <TextView
+            android:id="@+id/ShowShopName"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/textMemo"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Note"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/ShowMemo"
+            android:layout_width="240dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/rating" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>
