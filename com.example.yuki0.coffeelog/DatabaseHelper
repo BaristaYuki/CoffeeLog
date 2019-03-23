@@ -1,0 +1,43 @@
+package com.example.yuki0.coffeelog;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private static final String DBNAME = "coffeerecord.db";
+    private static final int DBVERSION = 1;
+    public static final String TABLE_COFFEERECORD = "coffeerecord";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_BEANS = "beans";
+    public static final String COLUMN_ROASTER = "roaster";
+    public static final String COLUMN_NOTE = "memo";
+    public static final String COLUMN_RATING = "rating";
+
+    private static final String CREATE_TABLE_SQL =
+            "create table " + TABLE_COFFEERECORD
+                    + "(" + COLUMN_ID + " integer primary key autoincrement,"
+                    + COLUMN_DATE + " text not null, "
+                    + COLUMN_RATING + " real not null, "
+                    + COLUMN_BEANS + " text not null, "
+                    + COLUMN_ROASTER + " text not null, "
+                    + COLUMN_NOTE + " text not null )";
+
+
+    public DatabaseHelper(Context context) {
+        super(context, DBNAME, null, DBVERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+        db.execSQL(CREATE_TABLE_SQL);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
+
+}
