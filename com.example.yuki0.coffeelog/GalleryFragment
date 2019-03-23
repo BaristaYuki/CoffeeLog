@@ -1,0 +1,82 @@
+package com.example.yuki0.coffeelog;
+
+import android.app.Activity;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+/*
+  @author BaristaYuki
+*/
+
+public class GalleryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    SQLiteDatabase db;
+    Cursor c;
+    private static final int CURSORLOADER_ID = 0;
+    private ListAdapter mAdapter;
+
+    public static GalleryFragment newInstance(Context context){
+        GalleryFragment gallery = new GalleryFragment();
+        return gallery;
+    }
+
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState){
+        ViewGroup view = (ViewGroup)inflater.inflate(R.layout.view, null);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstance) {
+        super.onActivityCreated(savedInstance);
+        mAdapter = new ListAdapter(getActivity(), null, 0);  //constracter
+        getLoaderManager().initLoader(CURSORLOADER_ID, null, this);
+
+        ListView listView = (ListView) getView().findViewById(R.id.list);
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               // replaceFragment(position);
+            }
+        });
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle){
+        return new CursorLoader(this.getActivity(),  CoffeeContentProvider.CONTENT_URI,null, null, null, "_id DESC");
+
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+
+        getLoaderManager().destroyLoader(0);  //Loaderの破棄
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor){
+        mAdapter.swapCursor(cursor);
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader){
+        mAdapter.swapCursor(null);
+    }
+
+}
