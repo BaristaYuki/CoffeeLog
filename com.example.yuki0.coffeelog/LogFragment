@@ -103,7 +103,7 @@ public class LogFragment extends Fragment  {
                }
 
 
-               ((MainActivity) getActivity()).saverecord(Date, BeansName, Memo, ShopName, num);
+               ((MainActivity) getActivity()).saverecord(Date, BeansName, ShopName, Memo,  num);
 
            }
        });
