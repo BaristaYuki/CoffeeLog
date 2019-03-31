@@ -57,7 +57,7 @@ public class LogFragment extends Fragment  {
         editDate = (EditText)getView().findViewById(R.id.EditDate);
         ratingBar = (RatingBar)getView().findViewById(R.id.ratingBar);
         ratingBar.setRating(3);
-        String date = time.year+"/"+time.month+"/"+time.monthDay;
+        String date = time.year+"/"+(time.month+1)+"/"+time.monthDay;
         editDate.setText(date);
 
 
