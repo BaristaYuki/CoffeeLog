@@ -1,0 +1,83 @@
+package com.example.yuki0.coffeelog;
+
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+public class DetailLogFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState){
+        ViewGroup view = (ViewGroup)inflater.inflate(R.layout.row, null);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle){
+        Bundle b  = this.getArguments();
+       // Log.v("nishimura",b.getString("Item_id"));
+        Uri uri = Uri.parse(CoffeeContentProvider.CONTENT_URI+"/"+b.getString("Item_id"));
+        //Log.v("sss",uri.toString());
+        return new CursorLoader(this.getActivity(), uri,null, null, null,null);
+    }
+
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor){
+
+        cursor.moveToFirst();
+        float f = 0;
+        String date = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DATE));
+        String beans = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BEANS));
+        String roaster = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ROASTER));
+        String note = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTE));
+        float rate = cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_RATING));
+
+        TextView showdate = (TextView) getView().findViewById(R.id.ShowDate);
+        TextView showrbeans = (TextView) getView().findViewById(R.id.ShowBeansName);
+        TextView showroaster = (TextView) getView().findViewById(R.id.ShowShopName);
+        TextView shownote = (TextView) getView().findViewById(R.id.ShowMemo);
+        RatingBar r = (RatingBar)getView().findViewById(R.id.ratingBar);
+        r.setRating(rate);
+
+        showdate.setText(date);
+        showdate.setTextSize(24.0f);
+        showrbeans.setText(beans);
+        showrbeans.setTextSize(24.0f);
+        showroaster.setText(roaster);
+        showroaster.setTextSize(24.0f);
+        shownote.setText(note);
+        shownote.setTextSize(24.0f);
+
+
+    }
+
+
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader){
+
+    }
+
+
+
+}
